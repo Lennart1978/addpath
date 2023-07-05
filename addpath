@@ -1,0 +1,45 @@
+#!/usr/bin/env python
+
+""" addpath V1.0.0 (c) 2023 by Lennart Martens.
+    If you want to add a variable to your $PATH PERMANENT,
+    maybe this tiny Python3 script is what you are searching for.
+    To make things happen, just make shure that it is executable.
+    (chmod +x addpath)"""
+
+import os
+import sys
+
+# Is there an argument given ?
+try:
+    addpath = sys.argv[1]
+except IndexError:
+    print("\033[1;31m"+"\nYou didn't enter an argument !"+"\033[0m"+"\nTry: addpath path/to/add\n")
+    sys.exit(False)
+
+# Get username and create path to .bashrc file
+username = os.getlogin()
+username = username.capitalize()
+bashrc = f"/home/{os.getlogin()}/.bashrc"
+
+# colured greetings
+print("\033[1m", "\nHello", username, ", actual exec paths:")
+print("\33[34;40m")
+
+# print out the actual exec paths
+for i in os.get_exec_path():
+    i = i.strip()
+    print(i)
+
+# reset colour then colour red in bold, ask question
+print("\033[0m")
+x = input("\033[1;31m"+"Do you really want to write into your ~/.bashrc file ?(y|n): "+"\033[0m")
+x = x.strip()
+
+# if yes then write to .bashrc file. Otherwise say goodbye
+if x == "y":
+    with open(bashrc, "a") as f:
+        data = "\n#Added by addpath script:\nexport PATH+=:" + addpath
+        f.write(data)
+        print("\nsuccesfully added your path !\n")
+else:
+    print("\nOK, goodbye...\n")
