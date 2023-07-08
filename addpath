@@ -21,7 +21,7 @@ username = os.getlogin()
 username = username.capitalize()
 bashrc = f"/home/{os.getlogin()}/.bashrc"
 
-# colured greetings
+# coloured greetings
 print("\033[1m", "\nHello", username, ", actual exec paths:")
 print("\33[34;40m")
 
